@@ -142,7 +142,7 @@ android {
         applicationId "com.admingrosir"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 1
         versionName "1.2"
         // Enabling multidex support.
         multiDexEnabled true
@@ -201,8 +201,8 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-onesignal')
-    implementation project(':react-native-image-picker')
+    // implementation project(':react-native-onesignal')
+    // implementation project(':react-native-image-picker')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
