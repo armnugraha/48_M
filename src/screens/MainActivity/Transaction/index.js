@@ -162,7 +162,6 @@ export default class TransactionScreen extends React.Component {
     }
 
     storeTransaksi(){
-
         let params = {
             invoice: this.state.invoice_code,
             items: JSON.stringify(this.state.listTransaction),
@@ -374,9 +373,6 @@ export default class TransactionScreen extends React.Component {
                 </Tab>
 
                 <Tab heading={ <TabHeading><Text>List</Text></TabHeading>}>
-                    
-                    
-
                         <FlatList
                             data={this.state.listTransaction}
                             renderItem = {({item, index}) => (
@@ -387,7 +383,7 @@ export default class TransactionScreen extends React.Component {
                                             <Text note numberOfLines={1}>{item.qty} ({item.unit}) Sub (Rp. {item.subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")})</Text>
                                         </Body>
                                         <Right>
-                                            <Button style={{ backgroundColor: "#c70d3a" }} onPress={() => this.removeListObject(index+1)}>
+                                            <Button style={{ backgroundColor: "#c70d3a" }} onPress={() => this.removeListObject(item.id)}>
                                                 <Icon active name="trash" />
                                             </Button>
                                         </Right>
