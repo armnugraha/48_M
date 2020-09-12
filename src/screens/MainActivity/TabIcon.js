@@ -99,6 +99,13 @@ const TabIcon = props => {
         </Text> */}
       </View>
     );
+  }
+  else if (props.title == "Transaction") {
+    myTabIcon.push(
+      <View key={3} style={styles.tabItemBg}>
+        <FontAwesome name="cogs" size={32} color={props.focused ? "#59c264" : "#CCCCCC"} />
+      </View>
+    );
   } 
   else if (props.title == "Navigation") {
     myTabIcon.push(

@@ -1,9 +1,9 @@
 class Api {
     // static host = 'http://167.205.44.60:3000';
     // static host = 'https://node-nikreuh.herokuapp.com';
-    static host = 'https://sequelize-nikreuh.herokuapp.com';
+    // static host = 'https://sequelize-nikreuh.herokuapp.com';
     // static host = 'http://192.168.0.101:3000';
-    // static host = 'http://192.168.43.189:3000';
+    static host = 'http://192.168.43.189:3000';
     // static host = 'http://192.168.100.7:3000';
     // static host = 'http://192.168.100.4:3000';
 

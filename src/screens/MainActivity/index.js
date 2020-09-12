@@ -12,6 +12,8 @@ import ProfileEditScreen from "./ProfileEdit";
 import AdminScreen from "./index_admin";
 import ProfileScreen from "./Profile/index";
 
+import TransactionScreen from "./Transaction/index";
+
 const styles = StyleSheet.create({
     container: {flex: 1,backgroundColor: "transparent",justifyContent: "center",alignItems: "center"},
     tabBarStyle: {backgroundColor: "#F4F4F4",height: 50,
@@ -127,6 +129,14 @@ export default class Example extends Component {
                                             {/* <Scene
                                                 key="tab1_2" component={NearByDetails} hideNavBar titleStyle={{ color: "black", alignSelf: "center" }}
                                             /> */}
+                                        </Stack>
+
+                                        <Stack
+                                            key="tab_2" title="Transaction" tabBarLabel="TAB #2" inactiveBackgroundColor="#F4F4F4" activeBackgroundColor="#F4F4F4" icon={TabIcon} titleStyle={{ color: "green", alignSelf: "center" }}
+                                        >
+                                            <Scene
+                                                key="tab2_1" component={TransactionScreen} onRight={() => alert("Right button")} rightTitle="Right" hideNavBar
+                                            />
                                         </Stack>
 
                                         {/* <Stack key="tab_2" title="Message" icon={TabIcon}>

@@ -77,21 +77,19 @@ export default class Home extends Component {
 
     componentDidMount(){
         NetInfo.addEventListener(state => {
-            // console.log("Connection type", state.type); // console.log("Is connected?", state.isConnected);
             this.setState({ isConnected: state.isConnected });
         });
         BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
         this.fetchData();
-        this.fetchWeather();
         this.randomSearch();
 
         // OneSignal.setLogLevel(6, 0);
-        OneSignal.init("bed7e669-3057-4f11-b27a-0586250aa0f1", {kOSSettingsKeyAutoPrompt : false, kOSSettingsKeyInAppLaunchURL: false, kOSSettingsKeyInFocusDisplayOption:2});
-        OneSignal.inFocusDisplaying(2);
-        OneSignal.enableVibrate(true);
-        OneSignal.addEventListener('received', this.onReceived);
-        OneSignal.addEventListener('opened', this.onOpened);
-        OneSignal.addEventListener('ids', this.onIds);
+        // OneSignal.init("bed7e669-3057-4f11-b27a-0586250aa0f1", {kOSSettingsKeyAutoPrompt : false, kOSSettingsKeyInAppLaunchURL: false, kOSSettingsKeyInFocusDisplayOption:2});
+        // OneSignal.inFocusDisplaying(2);
+        // OneSignal.enableVibrate(true);
+        // OneSignal.addEventListener('received', this.onReceived);
+        // OneSignal.addEventListener('opened', this.onOpened);
+        // OneSignal.addEventListener('ids', this.onIds);
     }
     _onRefresh = () => {
         this.setState({refreshing: true});
@@ -111,22 +109,6 @@ export default class Home extends Component {
         var data = ["Manglayang Yuk","Jaya Giri Seru","Bandung","Lembang","Curug Cilengkrang","Ciwangun","Cilengkrang"]
         var i = Math.floor(7*Math.random())
         this.setState({randomSearch: data[i]})
-    }
-
-    fetchWeather(){
-        Geolocation.getCurrentPosition(
-            (position) => {
-                fetch('https://api.openweathermap.org/data/2.5/weather?appid=672f2fe8289963555ef2657196477dc0&units=metric&lat='+position.coords.latitude+'&lon='+position.coords.longitude, {
-                    method: 'GET'
-                })
-                .then((response) => response.json())
-                .then((responseJson) => { this.setState({nameCity:responseJson.name,tempCity:parseInt(responseJson.main.temp)}) })
-                .catch((error) => {});
-            },
-            (error) => {
-            },
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
-        );
     }
 
     fetchFilter(route){
