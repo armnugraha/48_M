@@ -10,7 +10,8 @@ import {
   ToastAndroid,
   ActivityIndicator,
   FlatList,
-  Alert
+  Alert,
+  StatusBar
 } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import { Container, Header, Content, List, ListItem, Button, Tab, Tabs, TabHeading, Left, Body, Right, Title, Item, Input, Footer, FooterTab, Separator, Card, CardItem, Icon } from 'native-base';
@@ -126,7 +127,8 @@ export default class TransactionScreen extends React.Component {
         }else{
             return Api.post('/transactions', params).then(resp =>{
                 this.setState({total_harga_keseluruhan:0,jumlah_bayar:0,jumlah_kembalian:0,invoice_code:null,
-                    listTransaction: [],loading:false,itemProduct:[]})
+                    listTransaction: [],loading:false,itemProduct:[],
+                    name_product:""})
                 ToastAndroid.show("Transaksi Berhasil Disimpan", ToastAndroid.SHORT)
                 Actions.pop()
             })
@@ -392,6 +394,7 @@ export default class TransactionScreen extends React.Component {
                                 <Right>
                                     <Input placeholder='Jumlah'
                                         style={{marginBottom:-32}}
+                                        value={this.state.jumlah_bayar}
                                         onChangeText={(text) => { [this.setState({jumlah_bayar:text, jumlah_kembalian:this.state.total_harga_keseluruhan - text }) ] }}
                                         keyboardType='numeric'/>
                                 </Right>
