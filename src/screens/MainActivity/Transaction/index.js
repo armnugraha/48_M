@@ -24,21 +24,6 @@ export default class TransactionScreen extends React.Component {
         super(props);
 
         this.state = {
-            flash: 'off',
-            zoom: 0,
-            autoFocus: 'on',
-            autoFocusPoint: {
-                normalized: { x: 0.5, y: 0.5 }, // normalized values required for autoFocusPointOfInterest
-                drawRectPosition: {
-                    x: Dimensions.get('window').width * 0.5 - 32,
-                    y: Dimensions.get('window').height * 0.5 - 32,
-                },
-            },
-            depth: 0,
-            type: 'back',
-            whiteBalance: 'auto',
-            ratio: '16:9',
-            barcodes: [],
             // {name: "I",
             // price: 2000,
             // qty:2,
@@ -86,46 +71,6 @@ export default class TransactionScreen extends React.Component {
         this.setState({invoice_code:code})
     }
 
-    touchToFocus(event) {
-        const { pageX, pageY } = event.nativeEvent;
-        const screenWidth = Dimensions.get('window').width;
-        const screenHeight = Dimensions.get('window').height;
-        const isPortrait = screenHeight > screenWidth;
-
-        let x = pageX / screenWidth;
-        let y = pageY / screenHeight;
-        // Coordinate transform for portrait. See autoFocusPointOfInterest in docs for more info
-        if (isPortrait) {
-        x = pageY / screenHeight;
-        y = -(pageX / screenWidth) + 1;
-        }
-
-        this.setState({
-        autoFocusPoint: {
-            normalized: { x, y },
-            drawRectPosition: { x: pageX, y: pageY },
-        },
-        });
-    }
-
-    zoomOut() {
-        this.setState({
-        zoom: this.state.zoom - 0.1 < 0 ? 0 : this.state.zoom - 0.1,
-        });
-    }
-
-    zoomIn() {
-        this.setState({
-        zoom: this.state.zoom + 0.1 > 1 ? 1 : this.state.zoom + 0.1,
-        });
-    }
-
-    setFocusDepth(depth) {
-        this.setState({
-        depth,
-        });
-    }
-
     getProduct(value){
         this.setState({loading:true})
 
@@ -163,20 +108,33 @@ export default class TransactionScreen extends React.Component {
 
     storeTransaksi(){
         let params = {
-            invoice: this.state.invoice_code,
-            items: JSON.stringify(this.state.listTransaction),
-            payment: this.state.jumlah_bayar,
-            total: this.state.total_harga_keseluruhan,
-            kembalian: this.state.jumlah_kembalian,
+            company_id:1,
+            code: this.state.invoice_code,
+            total_response:0,
+            id_client:-1,
+            id_seller:-1,
+            items: this.state.listTransaction,
+            cash: this.state.jumlah_bayar,
+            total_pay: this.state.total_harga_keseluruhan,
+            total_back: this.state.jumlah_kembalian,
         };
 
-        return Api.post('/api/v1/create_transaction', params).then(resp =>{
-            ToastAndroid.show("Transaksi Berhasil Disimpan", ToastAndroid.SHORT)
-            Actions.pop()
-        })
-        .catch(error =>{
-            alert(JSON.stringify(error))
-        });
+        if(this.state.jumlah_bayar == 0){
+            alert("Silahkan masukan data jumlah pembayaran")
+        }else if(this.state.jumlah_kembalian > 0){
+            alert("Sisa pembayaran masih harus dibayarkan")
+        }else{
+            return Api.post('/transactions', params).then(resp =>{
+                this.setState({total_harga_keseluruhan:0,jumlah_bayar:0,jumlah_kembalian:0,invoice_code:null,
+                    listTransaction: [],loading:false,itemProduct:[]})
+                ToastAndroid.show("Transaksi Berhasil Disimpan", ToastAndroid.SHORT)
+                Actions.pop()
+            })
+            .catch(error =>{
+                alert(JSON.stringify(error))
+            });
+        }
+
     }
 
     removeListObject(e){
@@ -212,6 +170,13 @@ export default class TransactionScreen extends React.Component {
     }
 
   render() {
+
+    StatusBar.setBarStyle("dark-content", true);
+    if (Platform.OS === "android") {
+        StatusBar.setBackgroundColor("#F4F4F4", true);
+        StatusBar.setTranslucent(true);
+    }
+
     return (
 		<Container>
 
@@ -223,13 +188,15 @@ export default class TransactionScreen extends React.Component {
                 <Right />
             </Header>
 
+            <StatusBar barStyle="dark-content" backgroundColor="#F4F4F4"/>
+
             <Tabs>
 
                 <Tab heading={ <TabHeading><Text>Tambah Barang</Text></TabHeading>}>
 
                     <Item regular style={{backgroundColor:"#FFF"}}>
                         <Input placeholder='Barcode'
-                            onChangeText={(text) => { text.length > 2 ? this.getProduct(text) : null }}
+                            onChangeText={(text) => { text.length > 2 ? this.getProduct(text) : this.setState({itemProduct:[]}) }}
                             // keyboardType='numeric'
                         />
                     </Item>
