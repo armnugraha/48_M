@@ -59,6 +59,7 @@ export default class TransactionScreen extends React.Component {
             
             totalItem:0,
             
+            id_product:0,
             name_product:"",
             jml_product:0,
             satuan_product:"",
@@ -197,7 +198,7 @@ export default class TransactionScreen extends React.Component {
     removeListAction(e){
         var array = [...this.state.listTransaction]; // make a separate copy of the array
 
-        array = array.filter( el => el.name !== e )
+        array = array.filter( el => el.id !== e )
 
         var msgTotal = array.reduce(function(prev, cur) {
             return prev + cur.subtotal;
@@ -360,7 +361,8 @@ export default class TransactionScreen extends React.Component {
                                 <Button full onPress={() => this.setState({total_harga_keseluruhan: (this.state.total_harga_keseluruhan + this.state.totalCalculate),
                                     totalCalculate: 0, satuan_unit: null, satuan_hrg_product:0,
                                     jumlah_kembalian:(this.state.total_harga_keseluruhan + this.state.totalCalculate)-this.state.jumlah_bayar,
-                                    listTransaction: [...this.state.listTransaction, {name: this.state.name_product, unit: this.state.satuan_unit, price: this.state.satuan_hrg_product, qty: this.state.totalItem, item_discount:0, item_discount_subtotal:0, subtotal:this.state.totalCalculate} ] }) }>
+                                    id_product:this.state.id_product+1,
+                                    listTransaction: [...this.state.listTransaction, {id: this.state.id_product+1, name: this.state.name_product, unit: this.state.satuan_unit, price: this.state.satuan_hrg_product, qty: this.state.totalItem, item_discount:0, item_discount_subtotal:0, subtotal:this.state.totalCalculate} ] }) }>
                                     <Text>Tambahkan</Text>
                                 </Button>
                             </FooterTab>
@@ -385,7 +387,7 @@ export default class TransactionScreen extends React.Component {
                                             <Text note numberOfLines={1}>{item.qty} ({item.unit}) Sub (Rp. {item.subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")})</Text>
                                         </Body>
                                         <Right>
-                                            <Button style={{ backgroundColor: "#c70d3a" }} onPress={() => this.removeListObject(item.name)}>
+                                            <Button style={{ backgroundColor: "#c70d3a" }} onPress={() => this.removeListObject(index+1)}>
                                                 <Icon active name="trash" />
                                             </Button>
                                         </Right>
