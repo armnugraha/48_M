@@ -80,8 +80,8 @@ export default class Home extends Component {
             this.setState({ isConnected: state.isConnected });
         });
         BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
-        this.fetchData();
-        this.randomSearch();
+        // this.fetchData();
+        // this.randomSearch();
 
         // OneSignal.setLogLevel(6, 0);
         // OneSignal.init("bed7e669-3057-4f11-b27a-0586250aa0f1", {kOSSettingsKeyAutoPrompt : false, kOSSettingsKeyInAppLaunchURL: false, kOSSettingsKeyInFocusDisplayOption:2});
