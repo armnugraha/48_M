@@ -12,6 +12,7 @@ import ProfileEditScreen from "./ProfileEdit";
 import AdminScreen from "./index_admin";
 import ProfileScreen from "./Profile/index";
 
+import ProductScreen from "./Product";
 import TransactionScreen from "./Transaction/index";
 
 const styles = StyleSheet.create({
@@ -114,6 +115,8 @@ export default class Example extends Component {
                                 <Scene key="profile_edit" component={ProfileEditScreen} hideNavBar/>
 
                                 <Scene key="kos" component={Kosong} hideNavBar />
+                                
+                                <Scene key="transaction" component={TransactionScreen} />
 
                                 <Scene hideNavBar initial panHandlers={null} key="mainTab">
                                     <Tabs
@@ -132,10 +135,10 @@ export default class Example extends Component {
                                         </Stack>
 
                                         <Stack
-                                            key="tab_2" title="Transaction" tabBarLabel="TAB #2" inactiveBackgroundColor="#F4F4F4" activeBackgroundColor="#F4F4F4" icon={TabIcon} titleStyle={{ color: "green", alignSelf: "center" }}
+                                            key="tab_2" title="Product" tabBarLabel="TAB #2" inactiveBackgroundColor="#F4F4F4" activeBackgroundColor="#F4F4F4" icon={TabIcon} titleStyle={{ color: "green", alignSelf: "center" }}
                                         >
                                             <Scene
-                                                key="tab2_1" component={TransactionScreen} onRight={() => alert("Right button")} rightTitle="Right" hideNavBar
+                                                key="tab2_1" component={ProductScreen} onRight={() => alert("Right button")} rightTitle="Right" hideNavBar
                                             />
                                         </Stack>
 
