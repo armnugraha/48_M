@@ -150,15 +150,14 @@ const styles = StyleSheet.create({
 
     cardImage: {
         borderRadius: 6,
-        height: Metrics.HEIGHT * 0.27,
-        width: Metrics.WIDTH * 0.7,
+        height: Metrics.HEIGHT * 0.17,
+        width: Metrics.WIDTH * 0.4,
     },
 
     cardBgImage: {
         borderRadius: 6,
-        height: Metrics.HEIGHT * 0.27,
-        width: Metrics.WIDTH * 0.7,
-        // backgroundColor:"#51B252"
+        height: Metrics.HEIGHT * 0.17,
+        width: Metrics.WIDTH * 0.4,
     },
 
     rowMainFilter: {
@@ -202,6 +201,12 @@ const styles = StyleSheet.create({
     nameTxt: {
         fontSize: Fonts.moderateScale(12),
         color: Colors.snow,
+        fontFamily: Fonts.type.sfuiDisplayRegular,
+        backgroundColor: Colors.transparent
+    },
+
+    itemCardProduct: {
+        fontSize: Fonts.moderateScale(12),
         fontFamily: Fonts.type.sfuiDisplayRegular,
         backgroundColor: Colors.transparent
     },
@@ -256,15 +261,15 @@ const styles = StyleSheet.create({
 
     postDetailBg: {
         flexDirection: "row",
+        marginTop: Metrics.WIDTH * 0.04,
         marginLeft: Metrics.WIDTH * 0.04,
         marginRight: Metrics.WIDTH * 0.04,
-        bottom: Metrics.WIDTH * 0.04,
+        // bottom: Metrics.WIDTH * 0.04,
         position: "absolute"
     },
 
     profileDetailBg: {
         flexDirection: "column",
-        marginLeft: Metrics.WIDTH * 0.03
     },
 
     filterDetailBg: {
