@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Dimensions,
+  BackHandler,
   ToastAndroid,
   ActivityIndicator,
   FlatList,
@@ -18,6 +18,7 @@ import { Container, Header, Content, List, ListItem, Button, Tab, Tabs, TabHeadi
 import Api from '../../../libs/Api';
 import moment from 'moment'
 import { Actions } from 'react-native-router-flux';
+import default_styles from "../../../resources/Themes/DefaultStyles";
 
 export default class TransactionScreen extends React.Component {
 
@@ -64,6 +65,7 @@ export default class TransactionScreen extends React.Component {
     }
 
     componentDidMount(){
+        BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
         let thn = moment().format("YY")
         let bln = moment().format("MM")
         let hr = moment().format("DD")
@@ -71,6 +73,15 @@ export default class TransactionScreen extends React.Component {
         let code = "INV-"+thn+"-"+Math.floor(Math.random() * 100)+"-"+bln+"-"+Math.floor(Math.random() * 10)+"-"+hr
         this.setState({invoice_code:code})
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+    }
+
+    handleBackPress = () => {
+        Actions.pop();
+        return true;
+    };
 
     getProduct(value){
         this.setState({loading:true})
@@ -181,13 +192,13 @@ export default class TransactionScreen extends React.Component {
 
     return (
 		<Container>
-
-            <Header hasTabs style={{marginTop:16}}>
-                <Left/>
-                <Body>
-                    <Title>Transaksi</Title>
-                </Body>
-                <Right />
+            <Header style={default_styles.header}>
+                <Left style={default_styles.vwLfH}>
+                    <Title style={default_styles.cl00}>Transaksi</Title>
+                </Left>
+                <Right style={default_styles.right}>
+                    {/* {this.loadingView()} */}
+                </Right>
             </Header>
 
             <StatusBar barStyle="dark-content" backgroundColor="#F4F4F4"/>
