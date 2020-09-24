@@ -3,8 +3,8 @@ class Api {
     // static host = 'https://node-nikreuh.herokuapp.com';
     // static host = 'https://sequelize-nikreuh.herokuapp.com';
     // static host = 'http://192.168.0.101:3000';
-    static host = 'http://192.168.43.189:3000';
-    // static host = 'http://192.168.100.7:3000';
+    // static host = 'http://192.168.43.189:3000';
+    static host = 'http://192.168.100.8:3000';
     // static host = 'http://192.168.100.4:3000';
 
     static headers(){
@@ -35,13 +35,40 @@ class Api {
     }
 
   
-    static xhr(route, params, verb){
+    // static xhr(route, params, verb){
+    //     const url = this.host + route;
+    //     let options = Object.assign({method: verb}, params ? {body: JSON.stringify(params)} : null);
+    //     options.headers = Api.headers();
+    //     return fetch(url, options).then( resp => {
+    //         let json = resp.json();
+    //         if(resp.ok){return json;}
+    //     })
+    // }
+
+    static async xhr(route, params, verb){
         const url = this.host + route;
         let options = Object.assign({method: verb}, params ? {body: JSON.stringify(params)} : null);
+
         options.headers = Api.headers();
-        return fetch(url, options).then( resp => {
+
+        // ADD HEADER FOR JWT
+        let token;
+        await AsyncStorage.getItem('jwtToken').then((_token) => {
+            if(_token != null){
+
+                token = _token.toString();
+            }
+            options.headers['authorization'] = 'Bearer ' + token;
+        })
+
+        return await fetch(url, options).then( resp => {            
             let json = resp.json();
-            if(resp.ok){return json;}
+
+            if(resp.ok){
+                return json;
+            }
+
+            return null;
         })
     }
 }
