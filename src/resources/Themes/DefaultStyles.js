@@ -11,7 +11,9 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#FFF',
         height: (Metrics.HEIGHT * 0.14),
-        borderBottomWidth: 0,
+        borderBottomWidth: 2,
+        borderBottomColor:"#F4F4F4",
+        opacity: 0.98,
         paddingTop: (Metrics.HEIGHT * 0.03),
         elevation: 0,
         paddingLeft: (Metrics.WIDTH * 0.05),
