@@ -266,12 +266,12 @@ export default class Product extends Component {
                     position="bottomRight"
                     onPress={() => this.setState({ activeFab: !this.state.activeFab })}
                 >
-                    <Icon name="md-share" />
-                    <Button style={{ backgroundColor: '#34A34F' }}>
-                        <Icon name="logo-whatsapp" />
+                    <Icon name="ios-add" />
+                    <Button style={{ backgroundColor: '#34A34F' }} onPress={() => Actions.push("product_create")}>
+                        <Icon name="ios-add" />
                     </Button>
-                    <Button style={{ backgroundColor: '#3B5998' }}>
-                        <Icon name="logo-facebook" />
+                    <Button style={{ backgroundColor: '#3B5998' }} onPress={() => Actions.push("transaction")}>
+                        <Icon name="md-cart" />
                     </Button>
                 </Fab>
             </Container>
