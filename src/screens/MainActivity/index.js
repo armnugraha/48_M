@@ -13,6 +13,7 @@ import AdminScreen from "./index_admin";
 import ProfileScreen from "./Profile/index";
 
 import ProductScreen from "./Product";
+import ProductCreateScreen from "./Product/create";
 import TransactionScreen from "./Transaction/index";
 
 const styles = StyleSheet.create({
@@ -116,6 +117,8 @@ export default class Example extends Component {
 
                                 <Scene key="kos" component={Kosong} hideNavBar />
                                 
+                                <Scene key="product_create" component={ProductCreateScreen} />
+
                                 <Scene key="transaction" component={TransactionScreen} />
 
                                 <Scene hideNavBar initial panHandlers={null} key="mainTab">
