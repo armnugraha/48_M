@@ -18,7 +18,6 @@ import { inject, observer } from 'mobx-react';
 @inject('store')
 @observer
 
-
 export default class Product extends Component {
     constructor(props) {
         super(props);
@@ -80,11 +79,12 @@ export default class Product extends Component {
         let { store } = this.props;
 
 		this.setState({isLoading:true})
-		
+
 		store.productStore.data()
 		.then((response)=>{
 
-		})
+        })
+        .catch(error =>{ToastAndroid.show("'"+error+"'", ToastAndroid.SHORT)});
     }
 
     randomSearch(){
@@ -248,7 +248,7 @@ export default class Product extends Component {
                         <Text style={styles.titleText}>{this.state.titleListGunung}</Text>
                     </View>
 
-                    {this.state.dataListSource == null ? 
+                    {store.productStore.products == null ? 
                         <View>
                             <Image
                                 style={{height: 300,flex: 1,alignItems: "stretch",justifyContent: 'center',alignItems: 'center',width: null}}
