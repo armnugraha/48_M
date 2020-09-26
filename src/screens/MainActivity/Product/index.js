@@ -12,8 +12,12 @@ import ListItemRekomendasi from './ListItemRekomendasi';
 // import OneSignal from 'react-native-onesignal';
 // Screen Styles
 import styles from "../../../resources/Themes/DefaultStyles";
-
 const cardBgOne = "https://images.unsplash.com/photo-1570174032494-50cc461b334b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80";
+
+import { inject, observer } from 'mobx-react';
+@inject('store')
+@observer
+
 
 export default class Product extends Component {
     constructor(props) {
@@ -67,11 +71,20 @@ export default class Product extends Component {
         this.setState({refreshing: false});
     }
     fetchData(){
-        this.setState({loading: true})
-        Api.get('/products/?page=1').then(resp =>{
-            this.setState({dataListSource: resp.data,loading:false})
-        })
-        .catch(error =>{ToastAndroid.show("'"+error+"'", ToastAndroid.SHORT)});
+        // this.setState({loading: true})
+        // Api.get('/products/?page=1').then(resp =>{
+        //     this.setState({dataListSource: resp.data,loading:false})
+        // })
+        // .catch(error =>{ToastAndroid.show("'"+error+"'", ToastAndroid.SHORT)});
+        
+        let { store } = this.props;
+
+		this.setState({isLoading:true})
+		
+		store.productStore.data()
+		.then((response)=>{
+
+		})
     }
 
     randomSearch(){
@@ -185,11 +198,7 @@ export default class Product extends Component {
     }
 
     render() {
-        StatusBar.setBarStyle("dark-content", true);
-        if (Platform.OS === "android") {
-            StatusBar.setBackgroundColor("#F4F4F4", true);
-            StatusBar.setTranslucent(true);
-        }
+        let { store } = this.props;
 
         return (
             <Container style={styles.main}>
@@ -249,7 +258,7 @@ export default class Product extends Component {
                         </View>
                     :
                         <FlatList
-                            data={this.state.dataListSource}
+                            data={store.productStore.products}
                             numColumns={2}
                             style={styles.listContent}
                             renderItem = {({item, index}) => ( this._renderRow(item) )}

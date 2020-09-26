@@ -16,6 +16,8 @@ import ProductScreen from "./Product";
 import ProductCreateScreen from "./Product/create";
 import TransactionScreen from "./Transaction/index";
 
+import { inject, observer } from 'mobx-react';
+
 const styles = StyleSheet.create({
     container: {flex: 1,backgroundColor: "transparent",justifyContent: "center",alignItems: "center"},
     tabBarStyle: {backgroundColor: "#F4F4F4",height: 50,
@@ -64,6 +66,10 @@ const onBackPress = () => {
   // Actions.pop();
   // return true;
 };
+
+@inject('store')
+
+@observer
 
 export default class Example extends Component {
     componentWillMount(){

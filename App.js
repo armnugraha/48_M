@@ -5,6 +5,8 @@ import { Images } from "./src/resources/Themes";
 import { Root } from "native-base";
 import App from './src/App';
 // import './src/stores/global';
+import { Provider as MobXProvider} from 'mobx-react';
+import  * as Store from './src/stores';
 import Home from './src/screens/MainActivity/index.js';
 import HomeAdmin from './src/screens/MainActivity/index_admin';
 
@@ -66,12 +68,6 @@ export default class admingrosir extends Component {
     }
 
     render (){
-        StatusBar.setBarStyle("dark-content", true);
-        if (Platform.OS == "android") {
-            StatusBar.setBackgroundColor("#F4F4F4", true);
-            StatusBar.setTranslucent(true);
-        }
-
         if(!this.state.isLoading){
             return (
 				<View style={{flex: 1,flexDirection: "row",alignItems: "stretch"}}><Image style={{flex: 1,width: null,height: null,resizeMode:"contain"}} source={Images.main_logo_e} /></View>
@@ -82,13 +78,30 @@ export default class admingrosir extends Component {
             // if (this.state.pengelola) {
             //     return(<Root><HomeAdmin/></Root>)
             // }
-            return(<Root><Home /></Root>)
+            return(
+                <Root>
+                    <StatusBar
+                        backgroundColor='#F4F4F4'
+                        barStyle="dark-content"
+                        translucent={true}
+                    />
+                    <MobXProvider store={Store}>
+                        <Home />
+                    </MobXProvider>
+                </Root>
+            )
         }
     
         return (
             <Root>
-             <App />
-            {/* <Home/> */}
+                <StatusBar
+                    backgroundColor='#F4F4F4'
+                    barStyle="dark-content"
+                    translucent={true}
+                />
+                <MobXProvider store={Store}>
+                    <App />
+                </MobXProvider>
             </Root>
         );
     };
