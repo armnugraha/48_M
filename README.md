@@ -68,3 +68,6 @@ https://audiojungle.net/item/upbeat/9108844?s_rank=1&_ga=2.67223569.1205037128.1
 
 
 -list icon native base = https://infinitered.github.io/ionicons-version-3-search/
+
+[MOBX] = https://www.npmjs.com/package/@babel/plugin-proposal-decorators
+https://stackoverflow.com/questions/52641907/how-to-get-mobx-decorators-to-work-with-create-react-app-v2
