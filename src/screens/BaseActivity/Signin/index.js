@@ -8,6 +8,10 @@ import { Images } from "../../../resources/Themes";
 import Api from '../../../libs/Api';
 import base64 from 'react-native-base64'
 
+import { inject, observer } from 'mobx-react';
+@inject('store')
+@observer
+
 export default class SigninScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -52,6 +56,8 @@ export default class SigninScreen extends React.Component {
     };
 
     login(username, password){
+        let { store } = this.props;
+
         if (!this.state.isConnected) {
             Toast.show({text: "Harap periksa koneksi terlebih dahulu",duration:2000,type: "danger"});
         }else{
@@ -63,59 +69,25 @@ export default class SigninScreen extends React.Component {
 
                     this.setState({loading: true,statusButton: true})
 
-                    let params = {username: username,password: password};
-        
-                    Api.post('/auth', params).then(resp =>{
+                    store.userStore.login(username, password)
+                    .then(resp =>{
 
-                        if(resp.status == "ok"){
-
-                            let getDataToken = resp.data.long;
-                            let splitToken = getDataToken.split(".",2);
-
-                            let decodeToken = base64.decode(splitToken[1])
-                            let splitDataToken = decodeToken.split(":",4);
-
-                            let getSplitId = splitDataToken[1];
-                            let splitDataId = getSplitId.split(",",1);
-
-                            let getSplitEmail = splitDataToken[2];
-                            let splitDataEmail = getSplitEmail.split(",",1);
-
-                            let getSplitRoleId = splitDataToken[3];
-                            let splitDataRoleId = getSplitRoleId.split(",",1);
-
-                            if(splitDataRoleId[0] == 2){
-                                AsyncStorage.setItem('pengelola', "TRUE");
-                                Api.get("/mounts/setting_mount/" + splitDataId).then(resp =>{
-                                    MOUNTID = JSON.stringify(resp.data.id)
-                                    MOUNTNAME = resp.data.name
-                                    AsyncStorage.setItem('mount_id', JSON.stringify(resp.data.id));
-                                    AsyncStorage.setItem('mount_name', resp.data.name);
-                                })
-                                .catch(error =>{
-                                    ToastAndroid.show("'"+error+"'", ToastAndroid.SHORT)
-                                });
-                                ROLEID = JSON.stringify(splitDataRoleId)
-                            }else{
-                                ROLEID = JSON.stringify(splitDataRoleId)
-                            }
-                            
-                            USERID = JSON.stringify(splitDataId);
+                        // if(resp.status == "ok"){
+                            USERID = JSON.stringify(store.userStore.user_id);
                             USERNAME = username
-                            
+
                             this.props.navigation.navigate("MainActivityScreen")
 
                             ToastAndroid.show('Selamat datang :)', ToastAndroid.SHORT)
-                            AsyncStorage.setItem('user_id', JSON.stringify(splitDataId));
+                            AsyncStorage.setItem('user_id', JSON.stringify(store.userStore.user_id));
                             AsyncStorage.setItem('user_name', username);
-                            AsyncStorage.setItem('email', JSON.stringify(splitDataEmail));
-                            AsyncStorage.setItem('role_id', JSON.stringify(splitDataRoleId));
-                            
-                        }else{
-                            this.setState({statusButton: false,loading: false})
-                            Toast.show({text: resp.message,duration:2000,type: "danger"});
-                            return;
-                        }
+                            AsyncStorage.setItem('email', JSON.stringify(store.userStore.email));
+                            AsyncStorage.setItem('role_id', JSON.stringify(store.userStore.role_id));
+                        // }else{
+                        //     this.setState({statusButton: false,loading: false})
+                        //     Toast.show({text: resp.message,duration:2000,type: "danger"});
+                        //     return;
+                        // }
                     })
                     .catch(error => {
                         this.setState({statusButton: false,loading: false})
